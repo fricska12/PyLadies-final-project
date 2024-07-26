@@ -24,43 +24,46 @@ def move(coordinates, snake_lenght, xdim, ydim) :
     direction = input("Which direction to go? (n,s,e,w) : ")
 
     if direction == "n" :
-        coordinates.append((coordinates[-1][0]-1, coordinates[-1][1]))
+        if coordinates[-1][0]-1 > -1 :
+            if [coordinates[-1][0]-1, coordinates[-1][1]] not in coordinates : 
+                coordinates.append([coordinates[-1][0]-1, coordinates[-1][1]])
+            else :
+                print("Snake bit itself (north). Choose another direction.")
+        else :
+            print("Snake reached the top end on the map (north). Choose another direction.")
     elif direction == "s" :
-        coordinates.append((coordinates[-1][0]+1, coordinates[-1][1]))
+        if coordinates[-1][0]+1 < xdim :
+            if [coordinates[-1][0]+1, coordinates[-1][1]] not in coordinates :
+                coordinates.append([coordinates[-1][0]+1, coordinates[-1][1]])
+            else :
+                print("Snake bit itself (south). Choose another direction.")
+        else :
+            print("Snake reached the bottom end on the map (south). Choose another direction.")
     elif direction == "e" :
-        coordinates.append((coordinates[-1][0], coordinates[-1][1]+1))
+        if coordinates[-1][1]+1 < ydim :
+            if [coordinates[-1][0], coordinates[-1][1]+1] not in coordinates :
+                coordinates.append([coordinates[-1][0], coordinates[-1][1]+1])
+            else :
+                print("Snake bit itself (east). Choose another direction.")
+        else :
+            print("Snake reached the right side on the map (east). Choose another direction.")
     elif direction == "w" :
-        coordinates.append((coordinates[-1][0], coordinates[-1][1]-1))
+        if coordinates[-1][1]-1 > -1 :
+            if [coordinates[-1][0], coordinates[-1][1]-1] not in coordinates :
+                coordinates.append([coordinates[-1][0], coordinates[-1][1]-1])
+            else :
+                print("Snake bit itself (west). Choose another direction.")
+        else :
+            print("Snake reached the left side on the map (west). Choose another direction.")
     
-    SnekBit = 0
-    # snake self-collison avoidance
-    #for i in range(len(initial_coordinates)):
-     #   if coordinates[-1] == initial_coordinates[i] :
-      ##      SnekBit = 1
-         #   print("Snek bit itself and its hurting! Choose another direction!")
-        #else : 
-         #   SnekBit = 0
-    # wall collison check
-    if coordinates[-1][0] >  ydim-2 :
-            SnekBit = 1
-            print("Snek bumped in the wall Horizontal! Choose another direction!")
-    elif coordinates[-1][1] >  xdim-2  : 
-            SnekBit = 1
-            print("Snek bumped in the wall Vertical! Choose another direction!")
-
     
-    if SnekBit == 1 :
-        output = initial_coordinates
-        print("Snekbit")
-    else :
-        output = coordinates[len(coordinates)-snake_lenght:]
-    
-    return output
+    return coordinates[(len(coordinates)-snake_lenght):]
 
 print("Now for real")
 xdim = 10
 ydim = 10
-coordinates = [(0,0),(0,1),(0,2),(0,3)] #starting snake
+#coordinates = [(0,0),(0,1),(0,2),(0,3)] #starting snake
+coordinates = [[0,0],[0,1],[0,2],[0,3]] #starting snake
 SL = 4  # snake length at beginning
 while 1 : 
     print(draw_map(coordinates, xdim, ydim))
