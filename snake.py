@@ -30,10 +30,11 @@ def draw_map(coordinates, xdim, ydim, food_coordinates) :
 # The move function takes user input for direction to move the snake's head by 1 step or exit game.
 # The snakes body "coordinates" are taken as input and updated withe new position of the snake. 
 # The argument and variable "coordinates" is a list of lists: a list of [x,y] pairs, and the snake's head is the last index.
-# The function detects self- and wall-collisions and will return game over if that happens.
-def move(coordinates, snake_lenght, xdim, ydim, SnakeGrows) :
+# The function detects self- and wall-collisions via xdim an ydim and will return game over if that happens.
+# The functions takes the input argument "SnakeGrows" to determine if the snake should remain the same length or grow 1 bit
+def move(coordinates, xdim, ydim, SnakeGrows) :
     
-    snake_lenght = len(coordinates)
+    snake_lenght = len(coordinates) # The snake's length before the move, this lenght stay the same if the "SnakeGrows" = 0 (no food)
     # get user input, can be small or capital, its converted
     direction = input("Which direction to go? (n,s,e,w) \n Type 'end' to exit game. : ").strip().lower()
     # Snake goes north (up)
@@ -88,7 +89,7 @@ def move(coordinates, snake_lenght, xdim, ydim, SnakeGrows) :
     if SnakeGrows > 0 :
         output = coordinates # coordinates has an extra element due to the newly appended (x,y)
     else :
-        output = coordinates[(len(coordinates)-snake_lenght):] # the length of coordinates stays the same as before, that is the last index of "coordinates" is dropped. This could be a parameter calculated insde the function by len(coordinates)
+        output = coordinates[(len(coordinates)-snake_lenght):] # Loose the first coordinate if the snake did not grow.
 
     return output
 
@@ -145,13 +146,13 @@ while 1 :
     # Show the map
     print(draw_map(coordinates, xdim, ydim, food_coordinates))
     # Make sneak move
-    coordinates = move(coordinates, SnakeLength, xdim, ydim, SnakeGrows)
+    coordinates = move(coordinates, xdim, ydim, SnakeGrows)
     # Check if GAME OVER or exit criteria met
     if coordinates == 0 : 
-        print("Game over!")
+        print("Game terminated (game over)!")
         break
     elif coordinates == 1 :
-        print("User quit.")
+        print("Game terminaed (user quit game)!")
         break
     # Show updated map with moved snake
     print(draw_map(coordinates, xdim, ydim, food_coordinates))
@@ -173,3 +174,4 @@ while 1 :
             SnakeGrows = 0 # snake did not eat the food
     
 
+# end of code
